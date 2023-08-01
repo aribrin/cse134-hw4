@@ -51,7 +51,8 @@ function showNode(el) {
     let nodeName = el.nodeName;
     let nodeValue = el.nodeValue;
 
-    alert(`Node type: ${nodeType}\nNode name: ${nodeName}\nNode value: ${nodeValue}`);
+    let walkTextArea = document.getElementById('walk-text');
+    walkTextArea.value = (`Node type: ${nodeType}\nNode name: ${nodeName}\nNode value: ${nodeValue}`);
 }
 
 function modify() {
