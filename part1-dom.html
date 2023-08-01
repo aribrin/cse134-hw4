@@ -5,18 +5,23 @@
     <title>Vanilla DOM Manipulation Exercises</title>
     <style media="screen">
         :root {
-         --color1 : #ee6055;
-         --color2 : #60d394;
-         --color3 : #aaf683;
-         --color4 : #ffd97d;
-         --color5 : #ff9b85;
+            --color1 : #ee6055;
+            --color2 : #60d394;
+            --color3 : #aaf683;
+            --color4 : #ffd97d;
+            --color5 : #ff9b85;
 
-         --darkcolor1 : black;
-         --darkcolor2 : darkslategray;
-         --darkcolor3 : darkgreen;
-         --darkcolor4 : darkgoldenrod;
-         --darkcolor5 : darkred;
-         --darkcolor6 : darkmagenta;
+            --darkcolor1 : black;
+            --darkcolor2 : darkslategray;
+            --darkcolor3 : darkgreen;
+            --darkcolor4 : darkgoldenrod;
+            --darkcolor5 : darkred;
+            --darkcolor6 : darkmagenta;
+
+            --card-bg-color: #f0f0f0;
+            --card-title-color: #333;
+            --card-text-color: #555;
+            --card-link-color: #007bff;
         }
 
         label {
@@ -45,11 +50,21 @@
             font-size : 3rem;
         }
 
+        /*Modify*/
+
         .fancy {
             animation-name: backgroundColorPalette;
             animation-duration: 10s;
             animation-iteration-count: infinite;
             animation-direction: alternate;
+        }
+
+        .shmancy {
+            animation-name: shmancy;
+            animation-duration: 5s;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+            animation-timing-function: linear;
         }
 
         @keyframes backgroundColorPalette {
@@ -59,11 +74,60 @@
             75% {background: #ffd97d;}
             100% {background: #ff9b85;}
         }
+
+        @keyframes shmancy {
+            from {
+                background-color: #ff7a59;
+                width: 300px;
+                top: 10px;
+            }
+            to {
+                background-color: #33475b;
+                width: 50px;
+                top: 100px;
+            }
+        }
+
+        /* Style for the newly added elements */
+        .new-element {
+            border: 1px solid #333;
+            background-color: #f5f5f5;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .card {
+            border: 1px solid #ccc;
+            background-color: var(--card-bg-color);
+            padding: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            color: var(--card-title-color);
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .card-text {
+            color: var(--card-text-color);
+        }
+
+        .card-link {
+            color: var(--card-link-color);
+            text-decoration: none;
+        }
+
+        .card-link:hover {
+            text-decoration: underline;
+        }
+
     </style>
 </head>
 <body>
 <!-- start of HTML demo -->
-<h1>Vanilla DOM Manipulation</h1>
+<h1 id="h1">Vanilla DOM Manipulation</h1>
 <p id="p1">This is a <em>test</em> of the DOM</p>
 
 <section id="controls">
@@ -82,6 +146,9 @@
 
                 Hint: This walk can be done in at least two ways if not more. Doing a brute force traversal may not be the most direct way of doing things.  Looking over more advanced DOM discussions at MDN may reveal other approaches.
         -->
+        <label for="walkBtnAdv">Advanced Traversal</label>
+        <input type="button" id="walkBtnAdv" value="Walk">
+
         <label for="walk-text">We have walked to:</label>
         <textarea id="walk-text"></textarea>
     </fieldset>
@@ -97,6 +164,9 @@
             2.  Changes the color of the h1 to a random dark color from one of the 5 CSS variables defined in the style tag above.  You can use the Math.random() function.
             3. Sets the class of the p tag to "shmancy" so that does a new CSS text effect of your own design. You can find something on the internet (please cite the URL of your inspiration) or make up your own.  You can use the classList property as you like, but make sure you toggle the animation class on and off every time you push the button.
         -->
+        <label for="modifyBtn">Advanced Modification</label>
+        <input type="button" id="advancedModifyBtn" value="Modify">
+        
     </fieldset>
 
     <fieldset>
@@ -108,6 +178,19 @@
             Q3) Add a select menu that allows you to add a new element to the DOM.  The select menu should have the following options: Text Node, Comment, and Element. When you select one of these options and click the button, the appropriate element should be added to the DOM.  You may want to define an output tag to put the newly created elements in it and style it in a fashion with a border or background color, so you can tell it is new content.  You will need a corresponding text field to define the contents of the text node, comment text, or tag name you want to insert.  By default set the text of any added element to say "New Element" or "New Comment" or "New Text Node" depending on the type of element you are adding but add in the current date and time using a JS Date object.  You can use the toLocaleString() method to get a nicely formatted date and time string.
 
         -->
+
+        <label for="elementType">Select Element Type:</label>
+        <select id="elementType">
+            <option value="textNode">Text Node</option>
+            <option value="comment">Comment</option>
+            <option value="element">Element</option>
+        </select>
+        <input type="text" id="elementContent" placeholder="Enter content here">
+        <button id="addBtnAdv">Add Element</button>
+    </fieldset>
+
+    <fieldset>
+        <div id="output"></div>
     </fieldset>
 
     <fieldset>
@@ -122,6 +205,14 @@
           Q4b) Delete by selector
             add a text field and a button to the fieldset that allows you to type a CSS selector and then delete all the elements that match that selector.
         -->
+
+        <label for="safeDelete">Safe Delete</label>
+        <input type="button" id="safeDelete" value="Remove">
+
+        <label for="selectorDelete">Selector Delete</label>
+        <input type="text" id="selectorInput" placeholder="Enter CSS Selector">
+        <input type="button" id="selectorDelete" value="Remove">
+        
     </fieldset>
 
     <fieldset>
@@ -132,15 +223,34 @@
           Q5b) Add template at the bottom of the page with some HTML markup representing a "card" that would have and title, image, a short text paragraph and link.  This template should be hidden from view using the <template> tag.  Add a button "Advanced Clone" that clones the template and adds it to the DOM.  Generate some boilerplate text to put in the title and text put add in some random value or number, so you can tell each new card that you are adding.  Find a few images at Unsplash or other sites to use as the card image to make it interesting.  The card design is up to you, and you are more than welcome to get inspiration from online for design.  These cards might be what you could use for a portfolio or gallery of some sort so have fun as if you do this correctly, you can use for your portfolio site eventually.  Make sure you are using semantic HTML and simple CSS to style the cards.  You should use CSS variables.
 
         -->
+        <label for="basicClone">Basic Clone</label>
+        <button type="button" id="basicClone">Clone</button>
+
+        <label for="advancedClone">Advanced Clone</label>
+        <button type="button" id="advancedClone">Clone</button>
     </fieldset>
 
 </form>
 </section>
 
+
+
 <hr>
 <h2>Look out below these will get deleted if you press the buttons above!</h2>
 <p>I am scared of being deleted!</p>
 <p>Me too. Oh noes, here comes the <code>removeChild()</code> method, it's going to delete us!</p>
+
+
+<!-- Card Template -->
+<template id="cardTemplate">
+    <article class="card">
+      <h2 class="card-title">Card Title</h2>
+      <img src="https://via.placeholder.com/200" alt="Card Image">
+      <p class="card-text">Card Text</p>
+      <a href="#" class="card-link">Read More</a>
+    </article>
+  </template>
+
 
 <!-- put all your new code in this dom.js file -->
 <script src="dom.js"></script>
